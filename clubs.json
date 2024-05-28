@@ -2,15 +2,18 @@
     {
         "name":"Simply Lift",
         "email":"john@simplylift.co",
-        "points":"13"
+        "points":"13",
+        "bookings": []
     },
     {
         "name":"Iron Temple",
         "email": "admin@irontemple.com",
-        "points":"4"
+        "points":"4",
+        "bookings": []
     },
     {   "name":"She Lifts",
         "email": "kate@shelifts.co.uk",
-        "points":"12"
+        "points":"12",
+        "bookings": []
     }
 ]}
