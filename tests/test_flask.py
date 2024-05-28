@@ -125,3 +125,15 @@ def test_book_more_than_12_places(client):
 
         assert response.status_code == 200
         assert b"You can not book more than 12 places" in response.data
+
+
+def test_book_past_event(client):
+    with app.app_context():
+        response = client.get(
+            url_for('book',
+                    competition='Fall Classic',
+                    club="Simply Lift"
+                    )
+        )
+    assert response.status_code == 200
+    assert b'This competition is past' in response.data
