@@ -9,6 +9,11 @@
             "name": "Fall Classic",
             "date": "2020-10-22 13:30:00",
             "number_of_places": "13"
+        },
+        {
+            "name": "Test Tournament",
+            "date": "2020-10-22 13:30:00",
+            "number_of_places": "2"
         }
     ]
 }

@@ -12,6 +12,15 @@
         <input type="hidden" name="competition" value="{{competition['name']}}">
         <label for="places">How many places?</label><input type="number" name="places" id=""/>
         <button type="submit">Book</button>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
     </form>
 </body>
 </html>

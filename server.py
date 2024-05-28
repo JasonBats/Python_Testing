@@ -2,6 +2,8 @@ import json
 
 from flask import Flask, flash, redirect, render_template, request, url_for
 
+from utils import check_bookings, update_bookings
+
 
 def load_clubs():
     with open("clubs.json") as c:
@@ -70,16 +72,47 @@ def purchase_places():
     competition = [c for c in competitions if
                    c["name"] == request.form["competition"]][0]
     club = [c for c in clubs if c["name"] == request.form["club"]][0]
+    competition_places_available = int(competition["number_of_places"])
+    club_points = int(club["points"])
     places_required = int(request.form["places"])
-    competition["number_of_places"] = (
-        int(competition["number_of_places"]) - places_required
-    )
-    flash("Great-booking complete!")
-    return render_template(
-        "welcome.html",
-        club=club,
-        competitions=competitions
-    )
+
+    if competition_places_available >= places_required <= club_points:
+        places_already_booked = check_bookings(competition, club)
+
+        total_booked_places = places_required + places_already_booked
+
+        competition["number_of_places"] = (
+            int(competition["number_of_places"]) - places_required
+        )
+        club["points"] = int(club["points"]) - places_required
+
+        update_bookings(competition, club, places_required)
+        flash("Great-booking complete!")
+        return render_template(
+            "welcome.html",
+            club=club,
+            competitions=competitions
+        )
+
+    elif places_required > club_points:
+        flash("Your club does not have enough points")
+        return redirect(
+            url_for(
+                "book",
+                club=club["name"],
+                competition=competition["name"]
+            )
+        )
+
+    elif places_required > competition_places_available:
+        flash("Not enough places available")
+        return redirect(
+            url_for(
+                "book",
+                club=club["name"],
+                competition=competition["name"]
+            )
+        )
 
 
 # TODO: Add route for points display
