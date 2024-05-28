@@ -109,3 +109,19 @@ def test_purchase_too_much_places_for_event(client):
 
         assert response.status_code == 200
         assert b"Not enough places available" in response.data
+
+
+def test_book_more_than_12_places(client):
+    with app.app_context():
+        response = client.post(
+            url_for("purchase_places"),
+            data={
+                "competition": "Spring Festival",
+                "club": "Simply Lift",
+                "places": 13
+            },
+            follow_redirects=True
+        )
+
+        assert response.status_code == 200
+        assert b"You can not book more than 12 places" in response.data
