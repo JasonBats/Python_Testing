@@ -81,18 +81,29 @@ def purchase_places():
 
         total_booked_places = places_required + places_already_booked
 
-        competition["number_of_places"] = (
-            int(competition["number_of_places"]) - places_required
-        )
-        club["points"] = int(club["points"]) - places_required
+        if total_booked_places <= 12:
 
-        update_bookings(competition, club, places_required)
-        flash("Great-booking complete!")
-        return render_template(
-            "welcome.html",
-            club=club,
-            competitions=competitions
-        )
+            competition["number_of_places"] = (
+                int(competition["number_of_places"]) - places_required
+            )
+            club["points"] = int(club["points"]) - places_required
+
+            update_bookings(competition, club, places_required)
+            flash("Great-booking complete!")
+            return render_template(
+                "welcome.html",
+                club=club,
+                competitions=competitions
+            )
+        else:
+            flash("You can not book more than 12 places")
+            return redirect(
+                url_for(
+                    "book",
+                    club=club["name"],
+                    competition=competition["name"]
+                )
+            )
 
     elif places_required > club_points:
         flash("Your club does not have enough points")
