@@ -1,7 +1,7 @@
 import pytest
 from flask import url_for
 
-from server import app
+from server import app, load_clubs
 
 
 @pytest.fixture
@@ -137,3 +137,15 @@ def test_book_past_event(client):
         )
     assert response.status_code == 200
     assert b'This competition is past' in response.data
+
+
+def test_display_points_board(client):
+
+    clubs = load_clubs()
+
+    with app.app_context():
+        response = client.get(url_for("display_club_points"))
+
+        assert response.status_code == 200
+        for club in clubs:
+            assert club["name"] in str(response.data)
