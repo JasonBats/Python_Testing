@@ -49,3 +49,19 @@
     We also like to show how well we're testing, so there's a module called 
     [coverage](https://coverage.readthedocs.io/en/coverage-5.1/) you should add to your project.
 
+
+## Run tests :
+
+Meanwhile app is running :
+
+1. `coverage run pytest`
+2. `coverage html`
+
+#### Coverage report :
+
+![img.png](coverage_report.png)
+
+## Flake8 report :
+
+![img.png](flake8_report.png)
+
